@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -11,7 +11,7 @@ const corsConfig = {
   origin: true,
   credentials: true,
 };
-// app.use(cors(origin, 'https://jikmunn-carmania.web.app/'));
+
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.use(express.json());
@@ -36,6 +36,15 @@ const run = async () => {
     app.get('/projects', async (req, res) => {
       const projects = await projectsCollection.find({}).toArray();
       res.send(projects);
+    });
+
+    // displaying single project part for purchase
+    app.get('/projects/:projectsId', async (req, res) => {
+      const id = req.params.projectsId;
+      // console.log(id);
+      //   const query = { _id: ObjectId(id) };
+      const project = await projectsCollection.findOne({ _id: ObjectId(id) });
+      res.send(project);
     });
   } finally {
     // await client.close();
