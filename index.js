@@ -31,6 +31,7 @@ const run = async () => {
   try {
     await client.connect();
     const projectsCollection = client.db('projects').collection('project');
+    const skillsCollection = client.db('projects').collection('skills');
 
     //  displaying projects
     app.get('/projects', async (req, res) => {
@@ -45,6 +46,12 @@ const run = async () => {
       //   const query = { _id: ObjectId(id) };
       const project = await projectsCollection.findOne({ _id: ObjectId(id) });
       res.send(project);
+    });
+
+    //  displaying projects
+    app.get('/skills', async (req, res) => {
+      const skills = await skillsCollection.find({}).toArray();
+      res.send(skills);
     });
   } finally {
     // await client.close();
