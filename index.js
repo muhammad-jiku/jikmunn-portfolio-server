@@ -42,8 +42,6 @@ const run = async () => {
     // displaying single project part for purchase
     app.get('/projects/:projectsId', async (req, res) => {
       const id = req.params.projectsId;
-      // console.log(id);
-      //   const query = { _id: ObjectId(id) };
       const project = await projectsCollection.findOne({ _id: ObjectId(id) });
       res.send(project);
     });
